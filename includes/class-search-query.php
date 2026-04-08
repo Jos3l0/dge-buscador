@@ -12,8 +12,21 @@ class DGE_Buscador_Search_Query {
 
     /**
      * Perform a search
+     * 
+     * @param string $search Search term
+     * @param string|array $post_type Post type(s) to search
+     * @param array $taxonomies Taxonomy filters
+     * @param string $sort Sort order
+     * @param int $page Page number
+     * @param int $per_page Results per page
+     * @return array Search results
      */
     public function search($search, $post_type, $taxonomies = array(), $sort = 'date_desc', $page = 1, $per_page = 12) {
+        // Convert post_type to array if string with commas
+        if (is_string($post_type)) {
+            $post_type = array_map('trim', explode(',', $post_type));
+        }
+        
         // Build WP_Query arguments
         $args = $this->build_args($search, $post_type, $taxonomies, $sort, $page, $per_page);
 
@@ -30,10 +43,13 @@ class DGE_Buscador_Search_Query {
      * Build WP_Query arguments
      */
     private function build_args($search, $post_type, $taxonomies, $sort, $page, $per_page) {
+        // Ensure post_type is always an array for WP_Query
+        $post_type_arg = is_array($post_type) ? $post_type : array($post_type);
+        
         $args = array(
-            'post_type'      => $post_type,
+            'post_type'      => $post_type_arg,
             'post_status'    => 'publish',
-            'posts_per_page'  => $per_page,
+            'posts_per_page' => $per_page,
             'paged'          => $page,
             's'              => $search,
         );
@@ -158,6 +174,7 @@ class DGE_Buscador_Search_Query {
             'date'       => get_the_date('d/m/Y', $post->ID),
             'thumbnail'  => $thumbnail_url,
             'terms'      => $terms,
+            'post_type'  => $post->post_type, // Added for multi-CPT support
         );
     }
 }

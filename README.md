@@ -14,6 +14,7 @@ Plugin personalizado para WordPress que provee una interfaz de búsqueda y filtr
 - Paginación AJAX
 - Diseño responsive
 - Compatible con cualquier Custom Post Type
+- **Soporte para múltiples CPTs** (búsqueda unificada)
 
 ## Instalación
 
@@ -28,6 +29,16 @@ Plugin personalizado para WordPress que provee una interfaz de búsqueda y filtr
 ```php
 [dge_buscador post_type="recurso" taxonomias="area_tematica,nivel_educativo,grado,tipo_recurso"]
 ```
+
+### Múltiples CPTs
+
+Para buscar en varios CPTs simultáneamente, séparalos con coma:
+
+```php
+[dge_buscador post_type="recurso,evento,curso" taxonomias="area_tematica,nivel_educativo"]
+```
+
+Esto buscará en los tres CPTs y mostrará los resultados combinados. Cada resultado incluirá el tipo de post (`post_type`) para distinguir su origen.
 
 ### Parámetros
 
