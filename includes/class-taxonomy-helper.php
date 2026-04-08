@@ -11,9 +11,17 @@ if (!defined('ABSPATH')) {
 class DGE_Buscador_Taxonomy_Helper {
 
     /**
-     * Get all taxonomies associated with a CPT
+     * Get all taxonomies associated with a CPT or multiple CPTs
+     * 
+     * @param string|array $post_type Single CPT or array of CPTs
+     * @return array Taxonomy names with labels
      */
     public static function get_taxonomies_for_cpt($post_type) {
+        // Convert to array if string
+        if (is_string($post_type)) {
+            $post_type = array_map('trim', explode(',', $post_type));
+        }
+        
         $taxonomies = get_object_taxonomies($post_type, 'objects');
         $result = array();
 
@@ -23,7 +31,7 @@ class DGE_Buscador_Taxonomy_Helper {
             }
         }
 
-        return $result;
+        return result;
     }
 
     /**
