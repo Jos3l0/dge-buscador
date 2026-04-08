@@ -1,20 +1,21 @@
 # DGE Buscador - Plugin de Búsqueda AJAX para WordPress
 
-Plugin de búsqueda y filtrado AJAX para el portal de Recursos Educativos de la Dirección General de Educación (DGE) de Argentina.
+Plugin de búsqueda y filtrado AJAX genérico para WordPress. Compatible con cualquier Custom Post Type.
 
 ## Descripción
 
-Plugin personalizado para WordPress que provee una interfaz de búsqueda y filtrado para recursos educativos. Utiliza AJAX para cargar resultados sin recargar la página.
+Plugin personalizado para WordPress que provee una interfaz de búsqueda y filtrado mediante AJAX sin recargar la página. Diseñado para ser flexible y adaptarse a cualquier tipo de contenido.
 
 ## Características
 
 - Búsqueda en tiempo real con debounce
-- Filtros por múltiples taxonomías
-- Ordenamiento (fecha, título, relevancia)
+- Filtros por múltiples taxonomías (AND/OR logic)
+- Ordenamiento (fecha, título, relevancia, random)
 - Paginación AJAX
 - Diseño responsive
 - Compatible con cualquier Custom Post Type
-- **Soporte para múltiples CPTs** (búsqueda unificada)
+- Soporte para múltiples CPTs (búsqueda unificada)
+- Compatible con WordPress 6.0+
 
 ## Instalación
 
@@ -27,7 +28,7 @@ Plugin personalizado para WordPress que provee una interfaz de búsqueda y filtr
 ### Shortcode básico
 
 ```php
-[dge_buscador post_type="recurso" taxonomias="area_tematica,nivel_educativo,grado,tipo_recurso"]
+[dge_buscador post_type="mi_cpt" taxonomias="taxonomia1,taxonomia2"]
 ```
 
 ### Múltiples CPTs
@@ -35,23 +36,23 @@ Plugin personalizado para WordPress que provee una interfaz de búsqueda y filtr
 Para buscar en varios CPTs simultáneamente, séparalos con coma:
 
 ```php
-[dge_buscador post_type="recurso,evento,curso" taxonomias="area_tematica,nivel_educativo"]
+[dge_buscador post_type="post,producto,evento" taxonomias="categoria,etiqueta"]
 ```
 
-Esto buscará en los tres CPTs y mostrará los resultados combinados. Cada resultado incluirá el tipo de post (`post_type`) para distinguir su origen.
+Esto buscará en los tres CPTs y mostrará los resultados combinados.
 
 ### Parámetros
 
 | Parámetro | Descripción | Valor por defecto |
 |-----------|-------------|-------------------|
-| post_type | CPT a buscar | recurso |
+| post_type | CPT a buscar (string o comma-separated) | post |
 | taxonomias | Taxonomías para filtros (separadas por coma) | vacío |
 | per_page | Resultados por página | 12 |
 | columns | Columnas en el grid (1-4) | 3 |
 | show_search | Mostrar búsqueda de texto | true |
 | show_filters | Mostrar filtros de taxonomía | true |
 | show_sort | Mostrar opciones de ordenamiento | true |
-| placeholder_search | Placeholder del input de búsqueda | "Search resources..." |
+| placeholder_search | Placeholder del input de búsqueda | "Search..." |
 
 ## Estructura de Archivos
 
@@ -63,20 +64,14 @@ dge-buscador/
 │   └── js/
 │       └── frontend.js
 ├── includes/
+│   ├── class-ajax-handler.php
 │   ├── class-search-query.php
+│   ├── class-shortcode.php
 │   └── class-taxonomy-helper.php
-├── templates/
-│   └── frontend.php
 ├── dge-buscador.php
+├── README.md
 └── readme.txt
 ```
-
-## Taxonomías del CPT "recurso"
-
-- **area_tematica**: Área temática (Arte, Ciencias Naturales, Geografía, etc.)
-- **nivel_educativo**: Nivel educativo (Primario, Secundario)
-- **grado**: Grado/año (Primero a Quinto)
-- **tipo_recurso**: Tipo de recurso (PDF, Video, Audio, etc.)
 
 ## Desarrollo
 
